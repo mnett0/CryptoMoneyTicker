@@ -44,4 +44,4 @@ That's it, enjoy! :relaxed:
 
 ### License
 
-![MIT](https://github.com/mnett0/CryptoMoneyTicker/blob/master/LICENSE.md)
+[MIT](https://github.com/mnett0/CryptoMoneyTicker/blob/master/LICENSE.md)

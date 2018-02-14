@@ -1,6 +1,6 @@
 # CryptoMoneyTicker v1
 
-![Demo_CrytptoMoneyTicker](https://media.giphy.com/media/3ohc15P4FztPVI5GM0/giphy.gif)
+![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/Crypto_ticker.gif)
 
 ## Description
 
@@ -21,7 +21,7 @@ Updates coming soon
 * ESP32
 * LCD TFT ILI9341 2.2"
 
-![Diagram_CryptoMoneyTicker](https://i.imgur.com/Vytu6ym.jpg)
+![Diagram_CryptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/Schema_Cryptho_Ticker.jpg)
 
 ### Library required
 

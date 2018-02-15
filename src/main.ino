@@ -26,6 +26,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 #include <TimeLib.h>
 
+//#include "BitmapColor.h"
+
 #define TFT_CS   17
 #define TFT_DC   16
 #define TFT_RST  5
@@ -52,6 +54,8 @@ const char host[] = "api.coinmarketcap.com";
  extern uint8_t litecoin[];
  extern uint8_t ripple[];
  extern uint8_t cardano[];
+
+extern uint16_t BTC_Color[];
 
  unsigned long previousMillis = 0;
  long interval = 0;
@@ -95,6 +99,18 @@ const char host[] = "api.coinmarketcap.com";
   //tft.println(WiFi.localIP());
 
   delay(1500);
+
+  int h = 100,w = 100, row, col, buffidx=0;
+  for (row=0; row<h; row++) { // For each scanline...
+    for (col=0; col<w; col++) { // For each pixel...
+      //To read from Flash Memory, pgm_read_XXX is required.
+      //Since image is stored as uint16_t, pgm_read_word is used as it uses 16bit address
+      tft.drawPixel(col, row, pgm_read_word(BTC_Color + buffidx));
+      buffidx++;
+    } // end pixel
+  }
+
+  /*
   tft.fillScreen(CUSTOM_DARK); // Clear Screen
   tft.setTextColor(ILI9341_BLUE);
   tft.setCursor(0, 150);
@@ -107,6 +123,7 @@ const char host[] = "api.coinmarketcap.com";
   tft.setCursor(5, 307);
   tft.setTextColor(ILI9341_WHITE);
   tft.println("Data from: CoinMarketCap.com");
+  */
 }
 
 void loop() {
@@ -357,15 +374,15 @@ void printError(String error) {
 void printTransition(){
 
   tft.fillScreen(CUSTOM_DARK);
-  yield();
+  delay(10);
   tft.fillScreen(ILI9341_RED);
-  yield();
+  delay(10);
   tft.fillScreen(ILI9341_GREEN);
-  yield();
+  delay(10);
   tft.fillScreen(ILI9341_BLUE);
-  yield();
+  delay(10);
   tft.fillScreen(CUSTOM_DARK);
-  yield();
+  delay(10);
 }
 
 void printDigits(int digits) {

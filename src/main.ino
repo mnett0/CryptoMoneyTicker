@@ -357,15 +357,15 @@ void printError(String error) {
 void printTransition(){
 
   tft.fillScreen(CUSTOM_DARK);
-  yield();
+  delay(10);
   tft.fillScreen(ILI9341_RED);
-  yield();
+  delay(10);
   tft.fillScreen(ILI9341_GREEN);
-  yield();
+  delay(10);
   tft.fillScreen(ILI9341_BLUE);
-  yield();
+  delay(10);
   tft.fillScreen(CUSTOM_DARK);
-  yield();
+  delay(10);
 }
 
 void printDigits(int digits) {

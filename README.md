@@ -1,20 +1,18 @@
-# CryptoMoneyTicker v1
+# CryptoMoneyTicker v1.1
 
 ![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/Crypto_ticker.gif)
+
+## Update v1.1
+
+Now you can follow 5 crypto-currencies of your choice but without logo, you can always add it. (They are already available for Bitcoin, Ethereum, Ripple, Litecoin and Cardano)
 
 ## Description
 
 This a small screen for your desktrop or somewhere else, it allows to follow 5 of your favorites crypto-currencies.
 
-Actually, the crypto-currencies "supported" by the program are : Bitcoin, Ethereum, Ripple, Litecoin and Cardano (more coming soon).
-
 Data are collected via the API of the site [CoinMarketCap](https://coinmarketcap.com) and are updated every 5 minutes.
 
 The display changes of crypto-currencies every minute. You can change this delay but do not exceed 10 updates per minute.
-
-      122   interval = yourInterval; // in milliseconds
-
-Updates coming soon
 
 ### Materials
 
@@ -35,10 +33,23 @@ Updates coming soon
 
 ### To begin
 
-Enter the IDs of your WiFi :
+* Enter the IDs of your WiFi :
 
-    35   const char* ssid = "yourSSID";
-    36   const char* password = "yourPASSWORD";
+    47   const char* ssid = "yourSSID";
+    48   const char* password = "yourPASSWORD";
+
+* Enter the 5 crypto-currencies of your choice:
+
+![Demo_cryptoname](https://media.giphy.com/media/4N5s4UWSsmNnrqoK2B/giphy.gif)
+
+Then take the name from the link as shown above and insert it between " " in the code.
+
+    72   String crypto[] = {"bitcoin", "ethereum", "ripple", "litecoin", "cardano"};
+
+
+* Choose the screen change interval *(do not exceed 10 changes/minute)*
+
+    141   interval = yourInterval; // in milliseconds
 
 That's it, enjoy! :relaxed:
 

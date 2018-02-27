@@ -1,6 +1,6 @@
 # CryptoMoneyTicker v1.1
 
-![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/Crypto_ticker.gif)
+![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/cryptoticker.gif)
 
 ## Update v1.1
 
@@ -35,21 +35,20 @@ The display changes of crypto-currencies every minute. You can change this delay
 
 * Enter the IDs of your WiFi :
 
-    47   const char* ssid = "yourSSID";
-    48   const char* password = "yourPASSWORD";
+      47  const char* ssid = "yourSSID";
+      48  const char* password = "yourPASSWORD";
 
 * Enter the 5 crypto-currencies of your choice:
 
-![Demo_cryptoname](https://media.giphy.com/media/4N5s4UWSsmNnrqoK2B/giphy.gif)
+![Demo_cryptoname](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/cryptoname.gif)
 
 Then take the name from the link as shown above and insert it between " " in the code.
 
-    72   String crypto[] = {"bitcoin", "ethereum", "ripple", "litecoin", "cardano"};
-
+    72  String crypto[] = {"bitcoin", "ethereum", "ripple", "litecoin", "cardano"};
 
 * Choose the screen change interval *(do not exceed 10 changes/minute)*
 
-    141   interval = yourInterval; // in milliseconds
+      141  interval = yourInterval; // in milliseconds
 
 That's it, enjoy! :relaxed:
 

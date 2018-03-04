@@ -1,4 +1,16 @@
 /*
+  /$$$$$$                                  /$$               /$$      /$$                                      /$$$$$$$$ /$$           /$$
+ /$$__  $$                                | $$              | $$$    /$$$                                     |__  $$__/|__/          | $$
+| $$  \__/  /$$$$$$  /$$   /$$  /$$$$$$  /$$$$$$    /$$$$$$ | $$$$  /$$$$  /$$$$$$  /$$$$$$$   /$$$$$$  /$$   /$$| $$    /$$  /$$$$$$$| $$   /$$  /$$$$$$   /$$$$$$
+| $$       /$$__  $$| $$  | $$ /$$__  $$|_  $$_/   /$$__  $$| $$ $$/$$ $$ /$$__  $$| $$__  $$ /$$__  $$| $$  | $$| $$   | $$ /$$_____/| $$  /$$/ /$$__  $$ /$$__  $$
+| $$      | $$  \__/| $$  | $$| $$  \ $$  | $$    | $$  \ $$| $$  $$$| $$| $$  \ $$| $$  \ $$| $$$$$$$$| $$  | $$| $$   | $$| $$      | $$$$$$/ | $$$$$$$$| $$  \__/
+| $$    $$| $$      | $$  | $$| $$  | $$  | $$ /$$| $$  | $$| $$\  $ | $$| $$  | $$| $$  | $$| $$_____/| $$  | $$| $$   | $$| $$      | $$_  $$ | $$_____/| $$
+|  $$$$$$/| $$      |  $$$$$$$| $$$$$$$/  |  $$$$/|  $$$$$$/| $$ \/  | $$|  $$$$$$/| $$  | $$|  $$$$$$$|  $$$$$$$| $$   | $$|  $$$$$$$| $$ \  $$|  $$$$$$$| $$
+ \______/ |__/       \____  $$| $$____/    \___/   \______/ |__/     |__/ \______/ |__/  |__/ \_______/ \____  $$|__/   |__/ \_______/|__/  \__/ \_______/|__/
+                     /$$  | $$| $$                                                                      /$$  | $$
+                    |  $$$$$$/| $$                                                                     |  $$$$$$/
+                     \______/ |__/                                                                      \______/
+
 The MIT License (MIT)
 
 Copyright (c) 2018 Médéric NETTO
@@ -105,15 +117,22 @@ const char host[] = "api.coinmarketcap.com";
       buffidx++;
     } // end pixel
   }
-
-  /*
+  
   tft.fillScreen(CUSTOM_DARK); // Clear Screen
+
+  tft.setTextSize(3);
   tft.setTextColor(ILI9341_BLUE);
-  tft.setCursor(0, 150);
-  tft.setTextSize(2);
-  tft.println("CryptoMoneyTicker_v1");
-  tft.drawLine(0,130,240,130, ILI9341_WHITE);
-  tft.drawLine(0,185,240,185, ILI9341_WHITE);
+  tft.setCursor(5, 110);
+  tft.println("Crypto");
+  tft.setTextColor(ILI9341_WHITE);
+  tft.setCursor(75, 140);
+  tft.println("Money");
+  tft.setTextColor(ILI9341_RED);
+  tft.setCursor(130, 170);
+  tft.println("Ticker");
+
+  tft.drawLine(0, 135, 130, 200, ILI9341_WHITE);
+  tft.drawLine(130, 200, 240, 200, ILI9341_WHITE);
 
   tft.setTextSize(1);
   tft.setCursor(5, 307);
@@ -134,7 +153,7 @@ unsigned long currentMillis = millis();
 
 if (currentMillis - previousMillis >= interval) {
   previousMillis = currentMillis;
-  interval = 60000; //                              <<<--------------------
+  interval = 60000;
 
 if(coin == 5) {
   coin = 0;
@@ -167,7 +186,7 @@ while (client.available() == 0) {
     tft.println(">>> Client Timeout!");
     client.stop();
     return;
-}
+  }
 }
 
 String data;
@@ -201,74 +220,53 @@ String last_updated = root["last_updated"]; // "1472762067" <-- Unix Time Stamp
 String error = root["error"]; // id not found
 
 printTransition();
+printLogo();
+printName(name, symbol);
+printPrice(price_usd);
+printChange(percent_change_1h);
+printTime(last_updated);
+printPagination();
+printError(error);
 
-switch (coin) {
-
-  case 0 : // Bitcoin
-  //tft.drawBitmap(5, 5, bitcoin, 45, 45, ILI9341_ORANGE);
-  printName(name, symbol);
-  printPrice(price_usd);
-  printChange(percent_change_1h);
-  printTime(last_updated);
-  printPagination();
-  printError(error);
-  tft.fillCircle(98, 300, 4, ILI9341_WHITE);
-  break;
-
-  case 1 : // Ethereum
-  //tft.drawBitmap(5, 5, ethereum, 45, 45, ILI9341_BLACK);
-  printName(name, symbol);
-  printPrice(price_usd);
-  printChange(percent_change_1h);
-  printTime(last_updated);
-  printPagination();
-  printError(error);
-  tft.fillCircle(108, 300, 4, ILI9341_WHITE);
-  break;
-
-  case 2 : // Ripple
-  //tft.drawBitmap(5, 5, ripple, 45, 45, ILI9341_NAVY);
-  printName(name, symbol);
-  printPrice(price_usd);
-  printChange(percent_change_1h);
-  printTime(last_updated);
-  printPagination();
-  printError(error);
-  tft.fillCircle(118, 300, 4, ILI9341_WHITE);
-  break;
-
-  case 3 : // Litecoin
-  //tft.drawBitmap(5, 5, litecoin, 45, 45, ILI9341_LIGHTGREY);
-  printName(name, symbol);
-  printPrice(price_usd);
-  printChange(percent_change_1h);
-  printTime(last_updated);
-  printPagination();
-  printError(error);
-  tft.fillCircle(128, 300, 4, ILI9341_WHITE);
-  break;
-
-  case 4 : // Cardano
-  //tft.drawBitmap(5, 5, cardano, 45, 45, ILI9341_CYAN);
-  printName(name, symbol);
-  printPrice(price_usd);
-  printChange(percent_change_1h);
-  printTime(last_updated);
-  printPagination();
-  printError(error);
-  tft.fillCircle(138, 300, 4, ILI9341_WHITE);
-  break;
-
+oldPrice[coin] = price_usd;
+coin++;
   }
+}
 
-  oldPrice[coin] = price_usd;
-  coin++;
+void printLogo() {
+
+if (crypto[coin] == "bitcoin") {
+    tft.drawBitmap(5, 5, bitcoin, 45, 45, ILI9341_ORANGE);
+}else if (crypto[coin] == "ethereum") {
+    tft.drawBitmap(5, 5, ethereum, 45, 45, ILI9341_BLACK);
+}else if (crypto[coin] == "ripple") {
+    tft.drawBitmap(5, 5, ripple, 45, 45, ILI9341_NAVY);
+}else if (crypto[coin] == "litecoin") {
+    tft.drawBitmap(5, 5, litecoin, 45, 45, ILI9341_LIGHTGREY);
+}else if (crypto[coin] == "cardano") {
+  tft.drawBitmap(5, 5, cardano, 45, 45, ILI9341_CYAN);
+}else{
+  tft.drawRect(5, 5, 45, 45, ILI9341_WHITE);
+  tft.drawLine(5, 49, 49, 5, ILI9341_WHITE);
+  tft.drawLine(5, 5, 49, 49, ILI9341_WHITE);
   }
 }
 
 void printName(String name, String symbol) {
 
+int StringLength = name.length();
+
+if (StringLength < 10){
   tft.setTextSize(3);
+}else if (StringLength >= 10 && StringLength < 15) {
+  tft.setTextSize(2);
+}else if (StringLength >= 15 && StringLength < 30) {
+  tft.setTextSize(1);
+}else{
+  tft.setTextSize(2);
+  name = "Text too long!";
+}
+
   tft.setCursor(65, 10);
   tft.println(name);
 
@@ -360,6 +358,18 @@ void printPagination() {
   tft.drawCircle(118, 300, 4, ILI9341_WHITE);
   tft.drawCircle(128, 300, 4, ILI9341_WHITE);
   tft.drawCircle(138, 300, 4, ILI9341_WHITE);
+
+if(coin == 0) {
+  tft.fillCircle(98, 300, 4, ILI9341_WHITE);
+}else if (coin == 1) {
+  tft.fillCircle(108, 300, 4, ILI9341_WHITE);
+}else if (coin == 2) {
+  tft.fillCircle(118, 300, 4, ILI9341_WHITE);
+}else if (coin == 3) {
+  tft.fillCircle(128, 300, 4, ILI9341_WHITE);
+}else if (coin == 4) {
+  tft.fillCircle(138, 300, 4, ILI9341_WHITE);
+  }
 }
 
 void printError(String error) {

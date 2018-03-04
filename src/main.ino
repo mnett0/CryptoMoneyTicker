@@ -26,8 +26,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 #include <TimeLib.h>
 
-//#include "BitmapColor.h"
-
 #define TFT_CS   17
 #define TFT_DC   16
 #define TFT_RST  5
@@ -41,21 +39,19 @@ const char host[] = "api.coinmarketcap.com";
 
  // Colors
  int ILI9341_COLOR;
- #define CUSTOM_DARK 0x4228 // Background color
+ #define CUSTOM_DARK 0x3186 // Background color
 
  // Bitmap_WiFi
- extern uint8_t wifi_1[];
- extern uint8_t wifi_2[];
- extern uint8_t wifi_3[];
+ //extern uint8_t wifi_1[];
+ //extern uint8_t wifi_2[];
+ //extern uint8_t wifi_3[];
 
  // Bitmap_CryptoMonnaies
- extern uint8_t bitcoin[];
- extern uint8_t ethereum[];
- extern uint8_t litecoin[];
- extern uint8_t ripple[];
- extern uint8_t cardano[];
-
-extern uint16_t BTC_Color[];
+ extern uint16_t bitcoin1[];
+ extern uint16_t ethereum2[];
+ extern uint16_t ripple3[];
+ extern uint16_t litecoin4[];
+ extern uint16_t cardano5[];
 
  unsigned long previousMillis = 0;
  long interval = 0;
@@ -100,12 +96,12 @@ extern uint16_t BTC_Color[];
 
   delay(1500);
 
-  int h = 100,w = 100, row, col, buffidx=0;
-  for (row=0; row<h; row++) { // For each scanline...
-    for (col=0; col<w; col++) { // For each pixel...
+  int h = 50, w = 50, row, col, buffidx=0;
+  for (row=5; row < h; row++) { // For each scanline...
+    for (col=5; col < w; col++) { // For each pixel...
       //To read from Flash Memory, pgm_read_XXX is required.
       //Since image is stored as uint16_t, pgm_read_word is used as it uses 16bit address
-      tft.drawPixel(col, row, pgm_read_word(BTC_Color + buffidx));
+      tft.drawPixel(col, row, pgm_read_word(ethereum2 + buffidx));
       buffidx++;
     } // end pixel
   }
@@ -124,7 +120,10 @@ extern uint16_t BTC_Color[];
   tft.setTextColor(ILI9341_WHITE);
   tft.println("Data from: CoinMarketCap.com");
   */
+  delay(5000);
 }
+
+
 
 void loop() {
 
@@ -206,7 +205,7 @@ printTransition();
 switch (coin) {
 
   case 0 : // Bitcoin
-  tft.drawBitmap(5, 5, bitcoin, 45, 45, ILI9341_ORANGE);
+  //tft.drawBitmap(5, 5, bitcoin, 45, 45, ILI9341_ORANGE);
   printName(name, symbol);
   printPrice(price_usd);
   printChange(percent_change_1h);
@@ -217,7 +216,7 @@ switch (coin) {
   break;
 
   case 1 : // Ethereum
-  tft.drawBitmap(5, 5, ethereum, 45, 45, ILI9341_BLACK);
+  //tft.drawBitmap(5, 5, ethereum, 45, 45, ILI9341_BLACK);
   printName(name, symbol);
   printPrice(price_usd);
   printChange(percent_change_1h);
@@ -228,7 +227,7 @@ switch (coin) {
   break;
 
   case 2 : // Ripple
-  tft.drawBitmap(5, 5, ripple, 45, 45, ILI9341_NAVY);
+  //tft.drawBitmap(5, 5, ripple, 45, 45, ILI9341_NAVY);
   printName(name, symbol);
   printPrice(price_usd);
   printChange(percent_change_1h);
@@ -239,7 +238,7 @@ switch (coin) {
   break;
 
   case 3 : // Litecoin
-  tft.drawBitmap(5, 5, litecoin, 45, 45, ILI9341_LIGHTGREY);
+  //tft.drawBitmap(5, 5, litecoin, 45, 45, ILI9341_LIGHTGREY);
   printName(name, symbol);
   printPrice(price_usd);
   printChange(percent_change_1h);
@@ -250,7 +249,7 @@ switch (coin) {
   break;
 
   case 4 : // Cardano
-  tft.drawBitmap(5, 5, cardano, 45, 45, ILI9341_CYAN);
+  //tft.drawBitmap(5, 5, cardano, 45, 45, ILI9341_CYAN);
   printName(name, symbol);
   printPrice(price_usd);
   printChange(percent_change_1h);

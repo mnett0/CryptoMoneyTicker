@@ -54,16 +54,16 @@ const char host[] = "api.coinmarketcap.com";
  #define CUSTOM_DARK 0x3186 // Background color
 
  // Bitmap_WiFi
- //extern uint8_t wifi_1[];
- //extern uint8_t wifi_2[];
- //extern uint8_t wifi_3[];
+ extern uint8_t wifi_1[];
+ extern uint8_t wifi_2[];
+ extern uint8_t wifi_3[];
 
  // Bitmap_CryptoMonnaies
- extern uint16_t bitcoin1[];
- extern uint16_t ethereum2[];
- extern uint16_t ripple3[];
- extern uint16_t litecoin4[];
- extern uint16_t cardano5[];
+ extern uint16_t bitcoin[];
+ extern uint16_t ethereum[];
+ extern uint16_t ripple[];
+ extern uint16_t litecoin[];
+ extern uint16_t cardano[];
 
  unsigned long previousMillis = 0;
  long interval = 0;
@@ -108,18 +108,7 @@ const char host[] = "api.coinmarketcap.com";
 
   delay(1500);
 
-  int h = 50, w = 50, row, col, buffidx=0;
-  for (row=5; row < h; row++) { // For each scanline...
-    for (col=5; col < w; col++) { // For each pixel...
-      //To read from Flash Memory, pgm_read_XXX is required.
-      //Since image is stored as uint16_t, pgm_read_word is used as it uses 16bit address
-      tft.drawPixel(col, row, pgm_read_word(ethereum2 + buffidx));
-      buffidx++;
-    } // end pixel
-  }
-  
   tft.fillScreen(CUSTOM_DARK); // Clear Screen
-
   tft.setTextSize(3);
   tft.setTextColor(ILI9341_BLUE);
   tft.setCursor(5, 110);
@@ -138,11 +127,7 @@ const char host[] = "api.coinmarketcap.com";
   tft.setCursor(5, 307);
   tft.setTextColor(ILI9341_WHITE);
   tft.println("Data from: CoinMarketCap.com");
-  */
-  delay(5000);
 }
-
-
 
 void loop() {
 
@@ -235,16 +220,26 @@ coin++;
 
 void printLogo() {
 
-if (crypto[coin] == "bitcoin") {
-    tft.drawBitmap(5, 5, bitcoin, 45, 45, ILI9341_ORANGE);
-}else if (crypto[coin] == "ethereum") {
-    tft.drawBitmap(5, 5, ethereum, 45, 45, ILI9341_BLACK);
-}else if (crypto[coin] == "ripple") {
-    tft.drawBitmap(5, 5, ripple, 45, 45, ILI9341_NAVY);
-}else if (crypto[coin] == "litecoin") {
-    tft.drawBitmap(5, 5, litecoin, 45, 45, ILI9341_LIGHTGREY);
-}else if (crypto[coin] == "cardano") {
-  tft.drawBitmap(5, 5, cardano, 45, 45, ILI9341_CYAN);
+if ((crypto[coin] == "bitcoin") || (crypto[coin] == "ethereum") || (crypto[coin] == "ripple") || (crypto[coin] == "litecoin") || (crypto[coin] == "cardano")) {
+  int h = 50, w = 50, row, col, buffidx = 0;
+  for (row=5; row < h; row++) { // For each scanline...
+    for (col=5; col < w; col++) { // For each pixel...
+      //To read from Flash Memory, pgm_read_XXX is required.
+      //Since image is stored as uint16_t, pgm_read_word is used as it uses 16bit address
+      if (crypto[coin] == "bitcoin"){
+      tft.drawPixel(col, row, pgm_read_word(bitcoin + buffidx));
+    }else if (crypto[coin] == "ethereum") {
+      tft.drawPixel(col, row, pgm_read_word(ethereum + buffidx));
+    }else if (crypto[coin] == "ripple") {
+      tft.drawPixel(col, row, pgm_read_word(ripple + buffidx));
+    }else if (crypto[coin] == "litecoin") {
+      tft.drawPixel(col, row, pgm_read_word(litecoin + buffidx));
+    }else if (crypto[coin] == "cardano") {
+      tft.drawPixel(col, row, pgm_read_word(cardano + buffidx));
+    }
+      buffidx++;
+    } // end pixel
+  }
 }else{
   tft.drawRect(5, 5, 45, 45, ILI9341_WHITE);
   tft.drawLine(5, 49, 49, 5, ILI9341_WHITE);

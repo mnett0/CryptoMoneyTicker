@@ -4,7 +4,9 @@
 
 ## Update v1.1
 
-Now you can follow 5 crypto-currencies of your choice but without logo, you can always add it. (They are already available for Bitcoin, Ethereum, Ripple, Litecoin and Cardano)
+Now you can follow 5 crypto-currencies of your choice but without bitmap, you can always add it (tutorial soon). They are already available for Bitcoin, Ethereum, Ripple, Litecoin and Cardano.
+
+Bitmap support in 16 bit.
 
 ## Description
 

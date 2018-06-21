@@ -53,7 +53,7 @@ And finally follow the instructions from line 73
 
 * Choose the screen change interval *(do not exceed 30 changes/minute)*
 
-      141  interval = yourInterval; // in milliseconds
+      152  interval = yourInterval; // in milliseconds
 
 That's it, enjoy! :relaxed:
 

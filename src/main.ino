@@ -69,7 +69,18 @@ const char host[] = "api.coinmarketcap.com";
  long interval = 0;
 
  int coin = 0;
- String crypto[] = {"bitcoin", "ethereum", "ripple", "litecoin", "cardano"};
+
+ // https://api.coinmarketcap.com/v2/listings/ for find the {id} of the currency
+ // Change the name of the currency and put the {id} in " "
+ #define BITCOIN  "1"
+ #define ETHEREUM "1027"
+ #define RIPPLE   "52"
+ #define LITECOIN "2"
+ #define CARDANO  "2010"
+
+ // and change again the name here
+ String crypto[] = {BITCOIN, ETHEREUM, RIPPLE, LITECOIN, CARDANO};
+
  String oldPrice[5];
 
  void setup() {
@@ -158,8 +169,7 @@ if (!client.connect(host, httpsPort)) {
 
 //Serial.print("Requesting URL: ");
 //Serial.println("Connected to server!");
-
-client.println("GET /v1/ticker/" + crypto[coin] + "/ HTTP/1.1");
+client.println("GET /v2/ticker/" + crypto[coin] + "/ HTTP/1.1");
 client.println("Host: api.coinmarketcap.com");
 client.println("Connection: close");
 client.println();
@@ -187,7 +197,7 @@ char buffer[data.length() + 1];
 data.toCharArray(buffer, sizeof(buffer));
 buffer[data.length() + 1] = '\0';
 
-const size_t bufferSize = JSON_OBJECT_SIZE(15) + 110;
+const size_t bufferSize = JSON_OBJECT_SIZE(21) + 400;
 DynamicJsonBuffer jsonBuffer(bufferSize);
 
 JsonObject& root = jsonBuffer.parseObject(buffer);
@@ -197,44 +207,47 @@ if (!root.success()) {
   return;
 }
 
-String name = root["name"]; // "Bitcoin"
-String symbol = root["symbol"]; // "BTC"
-String price_usd = root["price_usd"]; // "573.137"
-String percent_change_1h = root["percent_change_1h"]; // "0.04"
-String last_updated = root["last_updated"]; // "1472762067" <-- Unix Time Stamp
-String error = root["error"]; // id not found
+JsonObject& data0 = root["data"];
+String name = data0["name"];     // "Bitcoin"
+String symbol = data0["symbol"]; // "BTC"
+
+JsonObject& data1 = data0["quotes"]["USD"];
+String price = data1["price"];                      // "573.137"
+String percent_change_1h = data1["percent_change_1h"];  // "0.04"
+String last_updated = data0["last_updated"];            // "1472762067" <-- Unix Time Stamp
+String error = root["error"];                           // id not found
 
 printTransition();
-printLogo();
+printLogo(name);
 printName(name, symbol);
-printPrice(price_usd);
+printPrice(price);
 printChange(percent_change_1h);
 printTime(last_updated);
 printPagination();
 printError(error);
 
-oldPrice[coin] = price_usd;
+oldPrice[coin] = price;
 coin++;
   }
 }
 
-void printLogo() {
+void printLogo(String name) {
 
-if ((crypto[coin] == "bitcoin") || (crypto[coin] == "ethereum") || (crypto[coin] == "ripple") || (crypto[coin] == "litecoin") || (crypto[coin] == "cardano")) {
+if ((name == "Bitcoin") || (name == "Ethereum") || (name == "Ripple") || (name == "Litecoin") || (name == "Cardano")) {
   int h = 50, w = 50, row, col, buffidx = 0;
   for (row=5; row < h; row++) { // For each scanline...
     for (col=5; col < w; col++) { // For each pixel...
       //To read from Flash Memory, pgm_read_XXX is required.
       //Since image is stored as uint16_t, pgm_read_word is used as it uses 16bit address
-      if (crypto[coin] == "bitcoin"){
+      if (name == "Bitcoin"){
       tft.drawPixel(col, row, pgm_read_word(bitcoin + buffidx));
-    }else if (crypto[coin] == "ethereum") {
+    }else if (name == "Ethereum") {
       tft.drawPixel(col, row, pgm_read_word(ethereum + buffidx));
-    }else if (crypto[coin] == "ripple") {
+    }else if (name == "Ripple") {
       tft.drawPixel(col, row, pgm_read_word(ripple + buffidx));
-    }else if (crypto[coin] == "litecoin") {
+    }else if (name == "Litecoin") {
       tft.drawPixel(col, row, pgm_read_word(litecoin + buffidx));
-    }else if (crypto[coin] == "cardano") {
+    }else if (name == "Cardano") {
       tft.drawPixel(col, row, pgm_read_word(cardano + buffidx));
     }
       buffidx++;
@@ -272,15 +285,15 @@ if (StringLength < 10){
   tft.drawLine(65, 54, 240, 54, ILI9341_WHITE);
 }
 
-void printPrice(String price_usd) {
+void printPrice(String price) {
 
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextSize(2);
   tft.setCursor(5, 75);
   tft.print("Price:");
 
-  if(price_usd != oldPrice[coin]){
-    if(price_usd > oldPrice[coin]){
+  if(price != oldPrice[coin]){
+    if(price > oldPrice[coin]){
 
     ILI9341_COLOR = ILI9341_GREENYELLOW;
     }else{
@@ -293,7 +306,7 @@ void printPrice(String price_usd) {
   tft.setTextColor(ILI9341_COLOR);
   tft.setCursor(40, 110);
   tft.print("$");
-  tft.println(price_usd);
+  tft.println(price);
 }
 
 void printChange(String percent_change_1h) {
@@ -339,7 +352,7 @@ void printTime(String last_updated) {
   tft.print(year(t));
   tft.print(" ");
   */
-  printDigits(hour(t) + 1); // +1 for the French time
+  printDigits(hour(t) + 2); // UTC +2 for the French summer time
   tft.print(":");
   printDigits(minute(t));
   //tft.print(":");

@@ -1,6 +1,10 @@
-# CryptoMoneyTicker v1.1
+# CryptoMoneyTicker v1.2
 
 ![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/cryptoticker.gif)
+
+## Update v1.2
+
+Switch to version 2 of the API [CoinMarketCap](https://coinmarketcap.com).
 
 ## Update v1.1
 
@@ -14,7 +18,7 @@ This a small screen for your desktrop or somewhere else, it allows to follow 5 o
 
 Data are collected via the API of the site [CoinMarketCap](https://coinmarketcap.com) and are updated every 5 minutes.
 
-The display changes of crypto-currencies every minute. You can change this delay but do not exceed 10 updates per minute.
+The display changes of crypto-currencies every minute. You can change this delay but do not exceed 30 updates per minute.
 
 ### Materials
 
@@ -42,13 +46,12 @@ The display changes of crypto-currencies every minute. You can change this delay
 
 * Enter the 5 crypto-currencies of your choice:
 
-![Demo_cryptoname](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/cryptoname.gif)
+Go to [listings](https://api.coinmarketcap.com/v2/listings/) then CTRL+F to launch the search tool, then type the name of the desired currency, take its {id}.
+And finally follow the instructions from line 73
 
-Then take the name from the link as shown above and insert it between " " in the code.
+![listings_picture](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/listings.jpg)
 
-    72  String crypto[] = {"bitcoin", "ethereum", "ripple", "litecoin", "cardano"};
-
-* Choose the screen change interval *(do not exceed 10 changes/minute)*
+* Choose the screen change interval *(do not exceed 30 changes/minute)*
 
       141  interval = yourInterval; // in milliseconds
 

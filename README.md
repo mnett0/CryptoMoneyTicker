@@ -1,6 +1,11 @@
 # CryptoMoneyTicker v1.2
 
-![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/cryptoticker.gif)
+![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/demo.gif)
+
+## Update v1.3
+
+Correction of the price display which had 9 decimal places.
+Replacement of the Cardano crypto-currency for Dash.
 
 ## Update v1.2
 
@@ -8,7 +13,7 @@ Switch to version 2 of the API [CoinMarketCap](https://coinmarketcap.com).
 
 ## Update v1.1
 
-Now you can follow 5 crypto-currencies of your choice but without bitmap, you can always add it (tutorial soon). They are already available for Bitcoin, Ethereum, Ripple, Litecoin and Cardano.
+Now you can follow 5 crypto-currencies of your choice but without bitmap, you can always add it. They are already available for Bitcoin, Ethereum, Ripple, Litecoin and Dash.
 
 Bitmap support in 16 bit.
 

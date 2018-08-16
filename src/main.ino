@@ -63,7 +63,7 @@ const char host[] = "api.coinmarketcap.com";
  extern uint16_t ethereum[];
  extern uint16_t ripple[];
  extern uint16_t litecoin[];
- extern uint16_t cardano[];
+ extern uint16_t dash[];
 
  unsigned long previousMillis = 0;
  long interval = 0;
@@ -72,14 +72,14 @@ const char host[] = "api.coinmarketcap.com";
 
  // https://api.coinmarketcap.com/v2/listings/ for find the {id} of the currency
  // Change the name of the currency and put the {id} in " "
- #define BITCOIN  "1"
+ #define BITCOIN     "1"
  #define ETHEREUM "1027"
- #define RIPPLE   "52"
- #define LITECOIN "2"
- #define CARDANO  "2010"
+ #define RIPPLE     "52"
+ #define LITECOIN    "2"
+ #define DASH      "131"
 
  // and change again the name here
- String crypto[] = {BITCOIN, ETHEREUM, RIPPLE, LITECOIN, CARDANO};
+ String crypto[] = {BITCOIN, ETHEREUM, RIPPLE, LITECOIN, DASH};
 
  String oldPrice[5];
 
@@ -233,7 +233,7 @@ coin++;
 
 void printLogo(String name) {
 
-if ((name == "Bitcoin") || (name == "Ethereum") || (name == "Ripple") || (name == "Litecoin") || (name == "Cardano")) {
+if ((name == "Bitcoin") || (name == "Ethereum") || (name == "XRP") || (name == "Litecoin") || (name == "Dash")) {
   int h = 50, w = 50, row, col, buffidx = 0;
   for (row=5; row < h; row++) { // For each scanline...
     for (col=5; col < w; col++) { // For each pixel...
@@ -243,12 +243,12 @@ if ((name == "Bitcoin") || (name == "Ethereum") || (name == "Ripple") || (name =
       tft.drawPixel(col, row, pgm_read_word(bitcoin + buffidx));
     }else if (name == "Ethereum") {
       tft.drawPixel(col, row, pgm_read_word(ethereum + buffidx));
-    }else if (name == "Ripple") {
+    }else if (name == "XRP") {
       tft.drawPixel(col, row, pgm_read_word(ripple + buffidx));
     }else if (name == "Litecoin") {
       tft.drawPixel(col, row, pgm_read_word(litecoin + buffidx));
-    }else if (name == "Cardano") {
-      tft.drawPixel(col, row, pgm_read_word(cardano + buffidx));
+    }else if (name == "Dash") {
+      tft.drawPixel(col, row, pgm_read_word(dash + buffidx));
     }
       buffidx++;
     } // end pixel
@@ -306,7 +306,7 @@ void printPrice(String price) {
   tft.setTextColor(ILI9341_COLOR);
   tft.setCursor(40, 110);
   tft.print("$");
-  tft.println(price);
+  fixDecimal(price);
 }
 
 void printChange(String percent_change_1h) {
@@ -361,14 +361,12 @@ void printTime(String last_updated) {
 
 void printPagination() {
 
-  tft.drawCircle( 98, 300, 4, ILI9341_WHITE);
-  tft.drawCircle(108, 300, 4, ILI9341_WHITE);
-  tft.drawCircle(118, 300, 4, ILI9341_WHITE);
-  tft.drawCircle(128, 300, 4, ILI9341_WHITE);
-  tft.drawCircle(138, 300, 4, ILI9341_WHITE);
+for (byte i = 98; i <= 138; i += 10) {
+  tft.fillCircle( i, 300, 2, ILI9341_WHITE);
+}
 
 if(coin == 0) {
-  tft.fillCircle(98, 300, 4, ILI9341_WHITE);
+  tft.fillCircle( 98, 300, 4, ILI9341_WHITE);
 }else if (coin == 1) {
   tft.fillCircle(108, 300, 4, ILI9341_WHITE);
 }else if (coin == 2) {
@@ -407,4 +405,21 @@ void printDigits(int digits) {
  if (digits < 10)
  tft.print('0');
  tft.print(digits);
+}
+
+void fixDecimal(String price) {
+
+int reduceDecimalPrice = price.toInt();
+
+if(reduceDecimalPrice >= 1000 && reduceDecimalPrice < 10000){
+  tft.println(price.substring(0, 7));
+}else if(reduceDecimalPrice >= 100){
+  tft.println(price.substring(0, 6));
+}else if(reduceDecimalPrice >= 10){
+  tft.println(price.substring(0, 5));
+}else if(reduceDecimalPrice >= 1){
+  tft.println(price.substring(0, 4));
+}else{
+  tft.println(price.substring(0, 8));
+}
 }

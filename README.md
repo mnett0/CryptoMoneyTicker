@@ -1,10 +1,11 @@
-# CryptoMoneyTicker v1.2
+# CryptoMoneyTicker v1.3
 
 ![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/demo.gif)
 
 ## Update v1.3
 
 Correction of the price display which had 9 decimal places.
+
 Replacement of the Cardano crypto-currency for Dash.
 
 ## Update v1.2
@@ -13,17 +14,17 @@ Switch to version 2 of the API [CoinMarketCap](https://coinmarketcap.com).
 
 ## Update v1.1
 
-Now you can follow 5 crypto-currencies of your choice but without bitmap, you can always add it. They are already available for Bitcoin, Ethereum, Ripple, Litecoin and Dash.
+Now you can follow 5 crypto-currency of your choice but without bitmap, you can always add it. They are already available for Bitcoin, Ethereum, Ripple, Litecoin and Dash.
 
 Bitmap support in 16 bit.
 
 ## Description
 
-This a small screen for your desktrop or somewhere else, it allows to follow 5 of your favorites crypto-currencies.
+This a small screen for your desktrop or somewhere else, it allows to follow 5 of your favorites crypto-currency.
 
 Data are collected via the API of the site [CoinMarketCap](https://coinmarketcap.com) and are updated every 5 minutes.
 
-The display changes of crypto-currencies every minute. You can change this delay but do not exceed 30 updates per minute.
+The display changes of crypto-currency every minute. You can change this delay but do not exceed 30 updates per minute.
 
 ### Materials
 
@@ -49,7 +50,7 @@ The display changes of crypto-currencies every minute. You can change this delay
       47  const char* ssid = "yourSSID";
       48  const char* password = "yourPASSWORD";
 
-* Enter the 5 crypto-currencies of your choice:
+* Enter the 5 crypto-currency of your choice:
 
 Go to [listings](https://api.coinmarketcap.com/v2/listings/) then CTRL+F to launch the search tool, then type the name of the desired currency, take its {id}.
 And finally follow the instructions from line 73

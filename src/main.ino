@@ -9,7 +9,10 @@
  \______/ |__/       \____  $$| $$____/    \___/   \______/ |__/     |__/ \______/ |__/  |__/ \_______/ \____  $$|__/   |__/ \_______/|__/  \__/ \_______/|__/
                      /$$  | $$| $$                                                                      /$$  | $$
                     |  $$$$$$/| $$                                                                     |  $$$$$$/
-                     \______/ |__/                                                                      \______/
+                    \______/ |__/                                                                      \______/
+
+**********************************************************************************************************************************************************************
+GitHub : https://git.io/vN2d9
 
 The MIT License (MIT)
 
@@ -24,8 +27,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
 
+*********************************************************************************************************************************************************************/
 
 #include <ArduinoJson.h>
 
@@ -53,12 +56,15 @@ const char host[] = "api.coinmarketcap.com";
  int ILI9341_COLOR;
  #define CUSTOM_DARK 0x3186 // Background color
 
- // Bitmap_WiFi
+ // Bitmap QRcode
+ extern uint8_t qrcode[];
+
+ // Bitmap WiFi
  extern uint8_t wifi_1[];
  extern uint8_t wifi_2[];
  extern uint8_t wifi_3[];
 
- // Bitmap_CryptoMonnaies
+ // Bitmap CryptoMonnaies
  extern uint16_t bitcoin[];
  extern uint16_t ethereum[];
  extern uint16_t ripple[];
@@ -102,14 +108,14 @@ const char host[] = "api.coinmarketcap.com";
   WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
-      delay(200);
-      tft.drawBitmap(70, 50, wifi_1, 100, 100, ILI9341_WHITE);
-      delay(200);
-      tft.drawBitmap(70, 50, wifi_2, 100, 100, ILI9341_WHITE);
-      delay(200);
-      tft.drawBitmap(70, 50, wifi_3, 100, 100, ILI9341_WHITE);
-      delay(200);
-      tft.fillRect(70, 50, 100, 100, CUSTOM_DARK);
+    delay(200);
+    tft.drawBitmap(70, 50, wifi_1, 100, 100, ILI9341_WHITE);
+    delay(200);
+    tft.drawBitmap(70, 50, wifi_2, 100, 100, ILI9341_WHITE);
+    delay(200);
+    tft.drawBitmap(70, 50, wifi_3, 100, 100, ILI9341_WHITE);
+    delay(200);
+    tft.fillRect(70, 50, 100, 100, CUSTOM_DARK);
   }
 
   tft.println(" ");
@@ -118,26 +124,13 @@ const char host[] = "api.coinmarketcap.com";
   //tft.println(WiFi.localIP());
 
   delay(1500);
-
-  tft.fillScreen(CUSTOM_DARK); // Clear Screen
-  tft.setTextSize(3);
-  tft.setTextColor(ILI9341_BLUE);
-  tft.setCursor(5, 110);
-  tft.println("Crypto");
-  tft.setTextColor(ILI9341_WHITE);
-  tft.setCursor(75, 140);
-  tft.println("Money");
-  tft.setTextColor(ILI9341_RED);
-  tft.setCursor(130, 170);
-  tft.println("Ticker");
-
-  tft.drawLine(0, 135, 130, 200, ILI9341_WHITE);
-  tft.drawLine(130, 200, 240, 200, ILI9341_WHITE);
-
-  tft.setTextSize(1);
-  tft.setCursor(5, 307);
-  tft.setTextColor(ILI9341_WHITE);
-  tft.println("Data from: CoinMarketCap.com");
+  tft.fillScreen(CUSTOM_DARK);
+  tft.setCursor(20, 10);
+  tft.println("CryptoMoneyTicker");
+  tft.setCursor(95, 40);
+  tft.println("v1.3");
+  tft.drawBitmap(0, 50, qrcode, 240, 240, ILI9341_WHITE);
+  delay(6000);
 }
 
 void loop() {
@@ -151,9 +144,9 @@ if (currentMillis - previousMillis >= interval) {
   previousMillis = currentMillis;
   interval = 60000;
 
-if(coin == 5) {
-  coin = 0;
-}
+  if(coin == 5) {
+    coin = 0;
+  }
 
 //Serial.print(">>> Connecting to ");
 //Serial.println(host);
@@ -411,7 +404,7 @@ void fixDecimal(String price) {
 
 int reduceDecimalPrice = price.toInt();
 
-if(reduceDecimalPrice >= 1000 && reduceDecimalPrice < 10000){
+if(reduceDecimalPrice >= 1000 && reduceDecimalPrice < 100000){
   tft.println(price.substring(0, 7));
 }else if(reduceDecimalPrice >= 100){
   tft.println(price.substring(0, 6));

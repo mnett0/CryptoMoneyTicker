@@ -47,8 +47,8 @@ The display changes of crypto-currency every minute. You can change this delay b
 
 * Enter the IDs of your WiFi :
 
-      47  const char* ssid = "yourSSID";
-      48  const char* password = "yourPASSWORD";
+      50  const char* ssid = "yourSSID";
+      51  const char* password = "yourPASSWORD";
 
 * Enter the 5 crypto-currency of your choice:
 
@@ -59,9 +59,10 @@ And finally follow the instructions from line 73
 
 * Choose the screen change interval *(do not exceed 30 changes/minute)*
 
-      152  interval = yourInterval; // in milliseconds
+      145  interval = yourInterval; // in milliseconds
 
-That's it, enjoy! :relaxed:
+
+Do you like this library? Please :star: this project!
 
 ### License
 

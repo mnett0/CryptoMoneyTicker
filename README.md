@@ -62,7 +62,7 @@ And finally follow the instructions from line 73
       145  interval = yourInterval; // in milliseconds
 
 
-Do you like this library? Please :star: this project!
+Do you like this ? Please :star: this project!
 
 ### License
 

@@ -12,7 +12,8 @@
                      \______/ |__/                                                                      \______/
 
 **********************************************************************************************************************************************************************
-GitHub : https://git.io/vN2d9
+
+GitHub --> https://git.io/vN2d9
 
 The MIT License (MIT)
 
@@ -47,8 +48,10 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
 
-const char* ssid = "yourSSID";
-const char* password = "yourPASSWORD";
+//const char* ssid = "yourSSID";
+//const char* password = "yourPASSWORD";
+const char* ssid = "Livebox-5298";
+const char* password = "C5CA4F54A72CD96496A36FF2EC";
 
 const char host[] = "api.coinmarketcap.com";
 
@@ -94,7 +97,7 @@ const char host[] = "api.coinmarketcap.com";
   //Serial.begin(115200);
 
   tft.begin();
-  tft.setRotation(0);
+  tft.setRotation(2);
   tft.fillScreen(CUSTOM_DARK);
   tft.setTextColor(ILI9341_WHITE);
   tft.setTextWrap(true);
@@ -205,7 +208,7 @@ String name = data0["name"];     // "Bitcoin"
 String symbol = data0["symbol"]; // "BTC"
 
 JsonObject& data1 = data0["quotes"]["USD"];
-String price = data1["price"];                      // "573.137"
+String price = data1["price"];                          // "573.137"
 String percent_change_1h = data1["percent_change_1h"];  // "0.04"
 String last_updated = data0["last_updated"];            // "1472762067" <-- Unix Time Stamp
 String error = root["error"];                           // id not found
@@ -359,15 +362,15 @@ for (byte i = 98; i <= 138; i += 10) {
 }
 
 if(coin == 0) {
-  tft.fillCircle( 98, 300, 4, ILI9341_WHITE);
+  tft.fillCircle( 98, 300, 3, ILI9341_WHITE);
 }else if (coin == 1) {
-  tft.fillCircle(108, 300, 4, ILI9341_WHITE);
+  tft.fillCircle(108, 300, 3, ILI9341_WHITE);
 }else if (coin == 2) {
-  tft.fillCircle(118, 300, 4, ILI9341_WHITE);
+  tft.fillCircle(118, 300, 3, ILI9341_WHITE);
 }else if (coin == 3) {
-  tft.fillCircle(128, 300, 4, ILI9341_WHITE);
+  tft.fillCircle(128, 300, 3, ILI9341_WHITE);
 }else if (coin == 4) {
-  tft.fillCircle(138, 300, 4, ILI9341_WHITE);
+  tft.fillCircle(138, 300, 3, ILI9341_WHITE);
   }
 }
 

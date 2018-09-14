@@ -42,6 +42,7 @@ The display changes of crypto-currency every minute. You can change this delay b
 * [Adafruit-GFX](https://github.com/adafruit/Adafruit-GFX-Library)
 * [Adafruit-ILI9341](https://github.com/adafruit/Adafruit_ILI9341)
 * [TimeLib](https://github.com/PaulStoffregen/Time)
+* [Bounce2](https://github.com/thomasfredericks/Bounce2)
 
 ### To begin
 

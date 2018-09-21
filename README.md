@@ -1,6 +1,18 @@
-# CryptoMoneyTicker v1.3
+# CryptoMoneyTicker v1.4
 
 ![Demo_CrytptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/demo.gif)
+
+## Update 1.4
+
+Adding 3 buttons :
+* Go to the previous currency 
+* Stay on a crypto currency  
+* Go to the next one 
+
+Added support for SD cards and saved data (date, price) in .csv format  
+
+If you don't have any buttons or SD card, no problem the project will work 
+
 
 ## Update v1.3
 
@@ -30,8 +42,10 @@ The display changes of crypto-currency every minute. You can change this delay b
 
 * ESP32
 * LCD TFT ILI9341 2.2"
+* 3 Push Buttons (optional)
+* SD Card module (optional)
 
-![Diagram_CryptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/Schema_Cryptho_Ticker.jpg)
+![Diagram_CryptoMoneyTicker](https://github.com/mnett0/CryptoMoneyTicker/blob/master/medias/NewSchema.jpg)
 
 ### Library required
 
@@ -43,13 +57,15 @@ The display changes of crypto-currency every minute. You can change this delay b
 * [Adafruit-ILI9341](https://github.com/adafruit/Adafruit_ILI9341)
 * [TimeLib](https://github.com/PaulStoffregen/Time)
 * [Bounce2](https://github.com/thomasfredericks/Bounce2)
+* [Esp32-micro-sdcard](https://github.com/nhatuan84/esp32-micro-sdcard)
+
 
 ### To begin
 
 * Enter the IDs of your WiFi :
 
-      50  const char* ssid = "yourSSID";
-      51  const char* password = "yourPASSWORD";
+      63  const char* ssid = "yourSSID";
+      64  const char* password = "yourPASSWORD";
 
 * Enter the 5 crypto-currency of your choice:
 
@@ -60,7 +76,7 @@ And finally follow the instructions from line 73
 
 * Choose the screen change interval *(do not exceed 30 changes/minute)*
 
-      145  interval = yourInterval; // in milliseconds
+      209  interval = yourInterval; // in milliseconds
 
 
 Do you like this ? Please :star: this project!

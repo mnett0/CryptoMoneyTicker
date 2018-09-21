@@ -37,18 +37,26 @@
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
+#include <mySD.h>
 
 #include <TimeLib.h>
 
 #include <Bounce2.h>
 
-#define TFT_CS   27
-#define TFT_DC   26
+//#define LED_BUILTIN 22
+
+#define TFT_CS   17  // TTGO_T4: 27
+#define TFT_DC   16  //          26
 #define TFT_RST   5
 
-#define BUTTON_A 37
-#define BUTTON_B 38
-#define BUTTON_C 39
+#define BUTTON_A  0  //          37 CENTRE
+#define BUTTON_B 15  //          38 LEFT
+#define BUTTON_C  4  //          39 RIGHT
+
+#define SD_CS    26  //          13
+#define SD_MOSI  14  //          15
+#define SD_MISO  12  //           2
+#define SD_SCLK  27  //          14
 
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
 
@@ -78,6 +86,8 @@ extern uint16_t dash[];
 unsigned long previousMillis = 0;
 long interval = 0;
 
+File root;
+
 #define NUM_BUTTONS 3
 const uint8_t BUTTON_PINS[NUM_BUTTONS] = {BUTTON_A, BUTTON_B, BUTTON_C};
 Bounce * buttons = new Bounce[NUM_BUTTONS];
@@ -102,7 +112,7 @@ String oldPrice[5];
 
 void setup() {
 
-  //Serial.begin(115200);
+  Serial.begin(115200);
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
     buttons[i].attach(BUTTON_PINS[i] , INPUT_PULLUP);  //setup the bounce instance for the current button
@@ -117,11 +127,11 @@ void setup() {
   tft.setCursor(0, 170);
   tft.setTextSize(2);
 
-  tft.println(">>> Connecting to: ");
+  tft.println(" Connecting to: ");
   tft.println(" ");
-  tft.println(ssid);
+  tft.print(" "); tft.println(ssid);
 
-    WiFi.begin(ssid, password);
+  WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(200);
@@ -135,17 +145,56 @@ void setup() {
   }
 
   tft.println(" ");
-  tft.print(">>> WiFi connected");
+  tft.println(" WiFi connected");
   //tft.print("IP address: ");
   //tft.println(WiFi.localIP());
+  
+  //Serial.print("Initializing SD card...");
+  /* initialize SD library with SPI pins */
+  if (!SD.begin(SD_CS, SD_MOSI, SD_MISO, SD_SCLK)) {
+    //tft.setCursor(0, 170);
+    tft.println(" ");
+    tft.println(" SD Card failed!");
+  }else{
+    tft.println(" ");
+    tft.println(" SD Card done.");
+  }
+
+  /* Begin at the root "/" */
+  root = SD.open("/");
+  if (root) {
+    printDirectory(root, 0);
+    root.close();
+  } 
+  /*
+  else {
+    //Serial.println("error opening data.csv");
+  }
+  */
+  /* open "data.csv" for writing */
+  root = SD.open("data.csv", FILE_WRITE);
+  /* if open succesfully -> root != NULL
+    then write something to it
+  */
+  if (root.size() == 0 ) {
+    root.println("Date; Bitcoin; Ethereum; Ripple; Litecoin; Dash");
+    root.flush();
+    /* close the file */
+   // root.close();
+  } else {
+    /* if the file open error, print an error */
+    root.print("\n");
+    root.flush();
+    //Serial.println("File already done.");
+  }
 
   delay(1500);
   tft.fillScreen(CUSTOM_DARK);
   tft.setCursor(20, 10);
   tft.println("CryptoMoneyTicker");
   tft.setCursor(95, 40);
-  tft.println("v2.0");
-  tft.drawBitmap(0, 50, qrcode, 240, 240, ILI9341_WHITE);
+  tft.println("v1.4");
+  tft.drawBitmap(0, 60, qrcode, 240, 240, ILI9341_WHITE);
   delay(5000);
 }
 
@@ -178,7 +227,7 @@ void loop() {
 
     if (!client.connect(host, httpsPort)) {
     tft.fillScreen(CUSTOM_DARK);
-    tft.println(">>> Connection failed");
+    tft.println(" Connection failed");
     return;
     }
 
@@ -193,7 +242,7 @@ void loop() {
    while (client.available() == 0) {
      if (millis() - timeout > 5000) {
        tft.fillScreen(CUSTOM_DARK);
-       tft.println(">>> Client Timeout!");
+       tft.println(" Client Timeout!");
        client.stop();
        return;
      }
@@ -242,11 +291,13 @@ void loop() {
     printTime(last_updated);
     printPagination();
     printError(error);
-
+    
     oldPrice[coin] = price;
 
     btnState2 = LOW;
     btnState3 = LOW;
+
+    datalooger(last_updated, price); 
   }
   printPagination();
 }
@@ -423,10 +474,16 @@ void printTransition(){
 
 void printDigits(int digits) {
 
-  // utility function for digital clock display: prints preceding colon and leading 0
-  if (digits < 10)
-  tft.print('0');
-  tft.print(digits);
+  if ( digits < 10)
+    tft.print('0'); 
+    tft.print(digits);
+}
+
+void printDigitsSD(int digitsSD) {
+
+  if ( digitsSD < 10 )
+    root.print('0'); 
+    root.print(digitsSD);
 }
 
 void fixDecimal(String price) {
@@ -456,19 +513,66 @@ void buttonCheck() {
       antiFlickering = HIGH;
       tft.fillRect(95, 297, 47, 7, CUSTOM_DARK);
       tft.fillRect(111, 287, 15, 20, CUSTOM_DARK);
-      //Serial.print("Bouton 1 est préssé "); Serial.println(btnState1);
+      Serial.print("Bouton 1 est préssé "); Serial.println(btnState1);
     }else if(buttons[i].fell() && i == 1) {
       btnState2 = HIGH;
-      //Serial.print("Bouton 2 est préssé "); Serial.println(btnState2);
+      Serial.print("Bouton 2 est préssé "); Serial.println(btnState2);
        if(btnState2 == HIGH){
         coin--;  
       }
     }else if(buttons[i].fell() && i == 2) {
       btnState3 = HIGH;
-      //Serial.print("Button 3 est préssé "); Serial.println(btnState3);
+      Serial.print("Button 3 est préssé "); Serial.println(btnState3);
        if(btnState3 == HIGH){
         coin++;
       }
     }
   }
+}
+
+void datalooger(String last_updated, String price) {
+
+  long timeDatalogger = last_updated.toInt();
+  long oldTimeDatalogger;
+  time_t y = timeDatalogger;
+ 
+  if(coin == 0){
+  root.print(year(y)); root.print("/"); printDigitsSD(month(y)); root.print("/"); printDigitsSD(day(y)); 
+  root.print(" "); printDigitsSD(hour(y) + 2); root.print(":"); printDigitsSD(minute(y)); 
+  root.print(";"); root.print(price);
+  }else if(coin ==1){
+    root.print(";");root.print(price);
+  }else if(coin ==2){
+    root.print(";");root.print(price);
+  }else if(coin ==3){
+    root.print(";");root.print(price);
+  }else if(coin ==4){
+    root.print(";");root.println(price);
+  }
+  root.flush(); 
+}
+
+void printDirectory(File dir, int numTabs) {
+  
+  while(true) {
+     File entry =  dir.openNextFile();
+     if (! entry) {
+       break;
+     }
+     for (uint8_t i=0; i<numTabs; i++) {
+       Serial.print('\t');   // we'll have a nice indentation
+     }
+     // Print the name
+     Serial.print(entry.name());
+     /* Recurse for directories, otherwise print the file size */
+     if (entry.isDirectory()) {
+       Serial.println("/");
+       printDirectory(entry, numTabs+1);
+     } else {
+       /* files have sizes, directories do not */
+       Serial.print("\t\t");
+       Serial.println(entry.size());
+     }
+     entry.close();
+   }
 }
